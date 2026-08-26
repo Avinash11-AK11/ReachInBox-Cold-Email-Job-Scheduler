@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #F6F5F2;
+    color: #1C1917;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  }
+}
+
+/* Custom 3D & Claymorphic Light UI Utilities */
+.clay-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(229, 226, 218, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.clay-button-primary {
+  background: linear-gradient(135deg, #E6D5C3 0%, #D8C4B0 50%, #CBB39C 100%);
+  color: #292524;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 4px 12px -2px rgba(180, 150, 120, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-button-primary:hover {
+  background: linear-gradient(135deg, #DFCEBC 0%, #D0BC9E 50%, #C2A991 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.7), 0 6px 16px -2px rgba(180, 150, 120, 0.4);
+  transform: translateY(-1px);
+}
+
+.clay-button-primary:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clay-icon-pill {
+  background: linear-gradient(145deg, #F9F4EB, #EADDCB);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9), 0 4px 10px rgba(180, 150, 120, 0.15);
+}
+
+.clay-icon-pill-green {
+  background: linear-gradient(145deg, #EBFBEE, #D3F4D8);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9), 0 4px 10px rgba(50, 180, 80, 0.15);
+}
+
+.clay-icon-pill-red {
+  background: linear-gradient(145deg, #FDE8E8, #F8CECE);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9), 0 4px 10px rgba(220, 50, 50, 0.15);
+}
+
+/* Floating Animations for 3D Clay Spheres & Cards */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(-4deg);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes float-card {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+}
+
+@keyframes ground-shadow {
+  0%, 100% {
+    transform: scale(1.0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(0.82);
+    opacity: 0.25;
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite 1s;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite 0.5s;
+}
+
+.animate-float-card {
+  animation: float-card 4s ease-in-out infinite;
+}
+
+.animate-ground-shadow {
+  animation: ground-shadow 4s ease-in-out infinite;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1EFF0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D6D2CC;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #BDB7AE;
+}

@@ -1,0 +1,71 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum EmailStatus {
+  SCHEDULED
+  PROCESSING
+  SENT
+  FAILED
+}
+
+model User {
+  id             String          @id @default(uuid())
+  googleId       String          @unique
+  email          String          @unique
+  name           String?
+  avatar         String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  campaigns      Campaign[]
+  senderAccounts SenderAccount[]
+}
+
+model SenderAccount {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email     String
+  name      String?
+  host      String
+  port      Int
+  username  String
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Campaign {
+  id                 String           @id @default(uuid())
+  userId             String
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject            String
+  body               String           @db.Text
+  startTime          DateTime
+  delayBetweenEmails Int              @default(2000)
+  hourlyLimit        Int              @default(100)
+  totalRecipients    Int
+  createdAt          DateTime         @default(now())
+  scheduledEmails    ScheduledEmail[]
+}
+
+model ScheduledEmail {
+  id           String      @id @default(uuid())
+  campaignId   String
+  campaign     Campaign    @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  recipient    String
+  subject      String
+  body         String      @db.Text
+  scheduledFor DateTime
+  status       EmailStatus @default(SCHEDULED)
+  attempts     Int         @default(0)
+  errorMessage String?     @db.Text
+  previewUrl   String?     @db.Text
+  sentAt       DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}

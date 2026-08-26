@@ -1,0 +1,14 @@
+{
+  "name": "reachinbox-email-scheduler",
+  "version": "1.0.0",
+  "description": "ReachInbox Email Scheduler - Cold Outreach & Persistent Job Engine",
+  "scripts": {
+    "start": "bash ./start.sh",
+    "dev": "bash ./start.sh",
+    "setup": "cd backend && npm install && OPENSSL_CONF=/dev/null npx prisma db push && cd ../frontend && npm install",
+    "build": "cd backend && npm run build && cd ../frontend && OPENSSL_CONF=/dev/null npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

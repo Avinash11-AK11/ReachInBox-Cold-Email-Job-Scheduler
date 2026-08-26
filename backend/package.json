@@ -1,0 +1,43 @@
+{
+  "name": "reachinbox-backend",
+  "version": "1.0.0",
+  "description": "Backend service for ReachInbox Email Scheduler built with Express, TypeScript, Prisma MySQL, Redis, and BullMQ",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "worker": "ts-node-dev --respawn --transpile-only src/worker.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bullmq": "^5.34.0",
+    "connect-redis": "^7.1.1",
+    "cors": "^2.8.5",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "ioredis": "^5.4.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.10.2",
+    "@types/nodemailer": "^6.4.17",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.16",
+    "prisma": "^5.22.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2"
+  }
+}
