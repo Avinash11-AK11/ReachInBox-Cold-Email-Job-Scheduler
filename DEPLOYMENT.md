@@ -27,7 +27,7 @@ This guide walks you through deploying the **ReachInbox Cold Email Job Scheduler
 
 ---
 
-## 1. Railway Deployment (Backend + PostgreSQL + Redis)
+## 1. Railway Deployment (Backend + MySQL + Redis)
 
 ### Step 1: Create a New Project on Railway
 1. Go to [Railway.app](https://railway.app) and sign in.
@@ -36,7 +36,7 @@ This guide walks you through deploying the **ReachInbox Cold Email Job Scheduler
 
 ### Step 2: Add Database Services on Railway
 1. In your Railway project canvas, click **+ New**:
-   - Select **Database** -> **Add PostgreSQL**.
+   - Select **Database** -> **Add MySQL**.
    - Select **Database** -> **Add Redis**.
 
 ### Step 3: Configure Backend Environment Variables
@@ -46,7 +46,7 @@ In your Railway Backend service, go to **Variables** and add:
 | :--- | :--- |
 | `PORT` | `5000` (or Railway default) |
 | `NODE_ENV` | `production` |
-| `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` (Use Railway reference variable) |
+| `DATABASE_URL` | `${{MySQL.MYSQL_URL}}` (Use Railway reference variable) |
 | `REDIS_URL` | `${{Redis.REDIS_URL}}` (Use Railway reference variable) |
 | `FRONTEND_URL` | `https://your-app.vercel.app` |
 | `SESSION_SECRET` | Generate a random 32+ char secret |
