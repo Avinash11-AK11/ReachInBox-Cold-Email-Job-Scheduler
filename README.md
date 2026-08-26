@@ -142,14 +142,3 @@ npm run dev
 | **Google OAuth Login** | Passport.js Google Strategy | Verified |
 | **React.js + Tailwind Frontend** | `frontend/src/pages/DashboardPage.tsx` | Verified |
 
----
-
-## 📦 Submission & Reviewer Access
-
-### GitHub Reviewer Access
-Access granted to assignment evaluators:
-- `Mitrajit`
-- `Yadav036`
-
-### Submission Form
-Completed ClickUp submission form: [https://forms.clickup.com/9005062261/f/8cbwp3n-8876/6NNNJ92DV93PQTAYST](https://forms.clickup.com/9005062261/f/8cbwp3n-8876/6NNNJ92DV93PQTAYST)
