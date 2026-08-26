@@ -1,6 +1,10 @@
 # ReachInbox Email Scheduler — Frontend Application
 
-The frontend dashboard is built with **React.js 18, Tailwind CSS, TypeScript, Vite, Axios, and Lucide React Icons**, aligned with the official ReachInbox Figma design specification.
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/KIoFVjHzvaE)
+
+The frontend dashboard is built with **React.js 18, Tailwind CSS, TypeScript, Vite, Axios, and Lucide React Icons**, aligned with the official ReachInbox design specification.
+
+👉 **[Watch Live Project Video Demo on YouTube](https://youtu.be/KIoFVjHzvaE)**
 
 ---
 

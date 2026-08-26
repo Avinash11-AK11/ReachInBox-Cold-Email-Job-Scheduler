@@ -1,6 +1,10 @@
 # ReachInbox Email Scheduler — Backend Service
 
-The backend service is built with **Node.js, Express, TypeScript, Prisma ORM, MySQL, Redis, BullMQ, Passport Google OAuth, and Nodemailer**.
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/KIoFVjHzvaE)
+
+The backend service is built with **Node.js, Express, TypeScript, Prisma ORM, MySQL/PostgreSQL, Redis, BullMQ, Passport Google OAuth, and Nodemailer**.
+
+👉 **[Watch Live Project Video Demo on YouTube](https://youtu.be/KIoFVjHzvaE)**
 
 ---
 
@@ -18,29 +22,22 @@ brew services start mysql
 npm install
 ```
 
-### 3. Run Database Migrations
+### 3. Run Database Setup
 ```bash
-npx prisma migrate dev --name init
 npx prisma generate
+npx prisma db push
 ```
 
-### 4. Start API Server (Terminal 1)
+### 4. Start API Server & Embedded BullMQ Worker
 ```bash
 npm run dev
 ```
 - 🌐 API Base URL: `http://localhost:5001/api`
 - 🔗 Health Check: `http://localhost:5001/health`
 
-### 5. Start BullMQ Email Worker (Terminal 2)
-```bash
-npm run worker
-```
-- Processes delayed jobs with `WORKER_CONCURRENCY=5` and `MIN_EMAIL_DELAY_MS=2000`.
-- Enforces atomic Redis hourly rate limiting (`MAX_EMAILS_PER_HOUR=100`).
-
 ---
 
-## 🔍 How to View & Inspect MySQL Database & Tables
+## 🔍 How to View & Inspect Database & Tables
 
 ### Method 1: Prisma Studio Web GUI (Recommended)
 Run in `backend/`:
@@ -69,18 +66,18 @@ SELECT id, email, name FROM User;
 ```text
 backend/
 ├── prisma/
-│   └── schema.prisma       # Prisma MySQL database schema
+│   └── schema.prisma       # Prisma database schema
 ├── src/
 │   ├── config/             # DB, Redis, Passport, Ethereal SMTP configs
 │   ├── controllers/        # Auth & Email route handlers
 │   ├── middleware/         # Authentication guard middleware
 │   ├── queues/             # BullMQ queue setup & Worker processor
 │   ├── routes/             # REST API routes (/api/auth, /api/emails)
-│   ├── services/           # Nodemailer dispatch logic
 │   ├── utils/              # Lead parser, rate limiter helper
 │   ├── app.ts              # Express application configuration
 │   ├── server.ts           # REST API entrypoint
 │   └── worker.ts           # BullMQ worker entrypoint
+├── railway.json            # Railway deployment manifest
 ├── .env.example            # Environment template
 └── package.json            # Node.js dependencies & scripts
 ```

@@ -1,5 +1,6 @@
-# ReachInbox Email Scheduler — Full-Stack Email Job Scheduler
+# ReachInbox Cold Email Job Scheduler
 
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/KIoFVjHzvaE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](https://expressjs.com/)
@@ -11,7 +12,15 @@
 
 A production-grade, persistent full-stack cold email scheduling system built for the **ReachInbox Software Development Intern Hiring Assignment**.
 
-For complete enterprise documentation, database design, API specifications, and architecture decisions, explore our [Master Documentation Index](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/00-documentation-index/DOCUMENTATION_INDEX.md).
+---
+
+## 🎬 Video Walkthrough & Live Demo
+
+Watch the comprehensive video demonstration walking through Google OAuth authentication, bulk CSV lead ingestion, BullMQ persistent queue scheduling, Redis hourly rate-limiting, and live Ethereal SMTP email delivery:
+
+[![ReachInbox Email Scheduler Video Demo](https://img.youtube.com/vi/KIoFVjHzvaE/maxresdefault.jpg)](https://youtu.be/KIoFVjHzvaE)
+
+👉 **[Click Here to Watch Full Video Demo on YouTube](https://youtu.be/KIoFVjHzvaE)**
 
 ---
 
@@ -20,106 +29,108 @@ For complete enterprise documentation, database design, API specifications, and 
 - 🔐 **Google OAuth 2.0 Integration**: Real authentication flow displaying user name, email, avatar, and logout option.
 - 📁 **CSV/TXT Lead File Parser**: Browser and server-side lead parser with regex validation and automatic de-duplication.
 - ⏱️ **Granular Scheduling Controls**: Custom start time, per-email throttle delay (`MIN_EMAIL_DELAY_MS`), and hourly rate limits (`MAX_EMAILS_PER_HOUR`).
-- ⚡ **BullMQ & Redis Architecture**: Persistent job queues with **zero cron dependencies**.
+- ⚡ **BullMQ & Redis Architecture**: Persistent job queues with **zero cron dependencies** and full restart resilience.
+- 🛡️ **Redis Rate Limiter & Concurrency Guard**: Atomic sliding counter preventing email domain blacklisting.
 - 📬 **Multi-Sender Ethereal SMTP Engine**: Dispatch emails via mock Ethereal SMTP accounts with direct web preview link generation.
-- 📊 **Responsive Dashboard**: Tabs for Scheduled Emails, Sent Emails, loading states, empty states, and toast notifications.
+- 📊 **Responsive Dashboard**: Live stats, Scheduled Emails table, Sent History view, search/filter capabilities, and custom claymorphic UI styling.
+- ☁️ **Vercel + Railway Ready**: Pre-configured for seamless production deployment on Vercel (Frontend) and Railway (Backend + Redis + MySQL).
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Backend API**: Node.js, Express.js 4, TypeScript, Prisma ORM, Nodemailer, Passport.js.
-- **Database & Queue**: MySQL 8.0, Redis 7, BullMQ.
-- **Frontend SPA**: React.js 18, Vite, Tailwind CSS, TypeScript, Axios, Lucide React Icons.
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, Lucide React Icons, Axios |
+| **Backend API** | Node.js, Express.js 4, TypeScript, Passport.js, Multer, Zod |
+| **ORM & Database** | Prisma ORM, MySQL 8.0 / PostgreSQL |
+| **Queue & Cache** | Redis 7, BullMQ, ioredis |
+| **Email Service** | Nodemailer, Ethereal SMTP |
+| **Deployment** | Vercel (Frontend SPA), Railway (Backend + DB + Redis) |
 
 ---
 
-## 🏗️ System Architecture Overview
+## 🏗️ System Architecture
 
 ```text
-                               ┌─────────────────────────┐
-                               │   Google OAuth Provider │
-                               └────────────┬────────────┘
-                                            │
-                                            ▼
-┌─────────────────────────┐        ┌─────────────────────────┐
-│   React 18 + Vite UI    │───────▶│   Express 4 + Node.js   │
-│   Tailwind CSS          │        │   TypeScript REST API   │
-│   Axios / Context API   │        └────────────┬────────────┘
-└─────────────────────────┘                     │
-                                  ┌─────────────┼─────────────┐
-                                  │             │             │
-                                  ▼             ▼             ▼
-                               MySQL          BullMQ        Redis
-                              (Prisma)     (Job Queue)  (Limit Counter)
-                                  │             │             │
-                                  │             ▼             │
-                                  │        Email Worker ◄─────┘
-                                  │     (Concurrency: N)
-                                  │             │
-                                  │             ├── Rate Limit Check (Redis INCR)
-                                  │             ├── Throttle Delay (2000ms)
-                                  │             └── Idempotency Guard (DB Check)
-                                  │             │
-                                  │             ▼
-                                  │       Nodemailer Client
-                                  │             │
-                                  │             ▼
-                                  │       Ethereal SMTP Server
-                                  │
-                                  └──── Sync Status (SENT / FAILED)
+                    INTERNET / CLIENT
+                           │
+             ┌─────────────┴─────────────┐
+             ▼                           ▼
+       Vercel (SPA)               Railway (API)
+    React 18 + Tailwind           Express + Passport
+             │                           │
+             └────────── HTTPS ──────────┤
+                                         │
+                                 ┌───────┼───────┐
+                                 │       │       │
+                                 ▼       ▼       ▼
+                               MySQL   BullMQ   Redis
+                              (Prisma) (Queue)  (Limiter)
+                                 │       │       │
+                                 │       ▼       │
+                                 │   EmailWorker ◄┘
+                                 │       │
+                                 │       ▼
+                                 │   Ethereal SMTP
+                                 │
+                                 └── Sync DB Status (SENT / FAILED)
 ```
+
+---
+
+## 🌐 Production Deployment Guide
+
+The project includes complete configurations for deploying the Frontend on **Vercel** and the Backend + Databases on **Railway**:
+
+- 📖 **[Read the Full Production Deployment Guide (DEPLOYMENT.md)](DEPLOYMENT.md)**
 
 ---
 
 ## 📖 Comprehensive Documentation System
 
-Access detailed technical documentation in the [`documentation/`](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/00-documentation-index/DOCUMENTATION_INDEX.md) folder:
+Access detailed technical documentation in the [`documentation/`](documentation/00-documentation-index/DOCUMENTATION_INDEX.md) directory:
 
-- 📘 **[Master Documentation Index](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/00-documentation-index/DOCUMENTATION_INDEX.md)**
-- 🔍 **[Documentation Quality Audit](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/00-documentation-index/DOCUMENTATION_AUDIT.md)**
-- 📋 **[Project Overview](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/01-project-overview/PROJECT_OVERVIEW.md)**
-- 📋 **[Functional Requirements Specification](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/02-requirements/FUNCTIONAL_REQUIREMENTS.md)**
-- ⚙️ **[System Architecture Design](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/03-system-design/SYSTEM_ARCHITECTURE.md)**
-- 🗄️ **[Database Design & ER Diagram](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/04-database/DATABASE_DESIGN.md)**
-- 📡 **[REST API Specifications](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/05-api/API_DOCUMENTATION.md)**
-- 📦 **[Queue & Scheduling Architecture](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/06-queue-and-scheduler/QUEUE_ARCHITECTURE.md)**
-- 🛡️ **[Rate Limiting & Throttling Strategy](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/07-rate-limiting/RATE_LIMITING.md)**
-- 🔐 **[Authentication & Google OAuth Sequence](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/08-authentication/AUTHENTICATION.md)**
-- 🎨 **[Frontend Component Architecture](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/09-frontend/FRONTEND_ARCHITECTURE.md)**
-- 🧪 **[Testing Strategy & Executable Test Matrix](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/12-testing/TESTING_STRATEGY.md)**
-- 📹 **[5-Minute Demo Video Recording Script](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/17-demo/DEMO_SCRIPT.md)**
-- 🗺️ **[Assignment Requirement Traceability Matrix](file:///Users/avinash/Downloads/reachinbox-email-scheduler/documentation/18-assignment-mapping/ASSIGNMENT_REQUIREMENT_MAPPING.md)**
+- 📘 **[Master Documentation Index](documentation/00-documentation-index/DOCUMENTATION_INDEX.md)**
+- 🔍 **[Documentation Quality Audit](documentation/00-documentation-index/DOCUMENTATION_AUDIT.md)**
+- 📋 **[Project Overview](documentation/01-project-overview/PROJECT_OVERVIEW.md)**
+- 📋 **[Functional Requirements Specification](documentation/02-requirements/FUNCTIONAL_REQUIREMENTS.md)**
+- ⚙️ **[System Architecture Design](documentation/03-system-design/SYSTEM_ARCHITECTURE.md)**
+- 🗄️ **[Database Design & ER Diagram](documentation/04-database/DATABASE_DESIGN.md)**
+- 📡 **[REST API Specifications](documentation/05-api/API_DOCUMENTATION.md)**
+- 📦 **[Queue & Scheduling Architecture](documentation/06-queue-and-scheduler/QUEUE_ARCHITECTURE.md)**
+- 🛡️ **[Rate Limiting & Throttling Strategy](documentation/07-rate-limiting/RATE_LIMITING.md)**
+- 🔐 **[Authentication & Google OAuth Sequence](documentation/08-authentication/AUTHENTICATION.md)**
+- 🎨 **[Frontend Component Architecture](documentation/09-frontend/FRONTEND_ARCHITECTURE.md)**
+- 🧪 **[Testing Strategy & Executable Test Matrix](documentation/12-testing/TESTING_STRATEGY.md)**
+- 📹 **[5-Minute Demo Video Recording Script](documentation/17-demo/DEMO_SCRIPT.md)**
+- 🗺️ **[Assignment Requirement Traceability Matrix](documentation/18-assignment-mapping/ASSIGNMENT_REQUIREMENT_MAPPING.md)**
 
 ---
 
-## ⚡ Quick Start Guide
+## ⚡ Quick Start Guide (Local Development)
 
 ### 1. Prerequisites
-Ensure Redis and MySQL background services are started:
+Ensure Redis and MySQL background services are running:
 ```bash
 brew services start redis
 brew services start mysql
 ```
 
-### 2. Start Backend REST API (Terminal 1)
+### 2. Backend Setup
 ```bash
 cd backend
-npx prisma migrate dev --name init
+npm install
+npx prisma generate
+npx prisma db push
 npm run dev
 ```
-*(Runs API server on `http://localhost:5001`)*
+*(Backend REST API runs on `http://localhost:5001` with embedded BullMQ Email Worker)*
 
-### 3. Start BullMQ Email Worker (Terminal 2)
-```bash
-cd backend
-npm run worker
-```
-*(Processes email dispatches, rate limits, and Ethereal SMTP dispatches)*
-
-### 4. Start React Frontend SPA (Terminal 3)
+### 3. Frontend Setup
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
-*(Runs React dashboard on `http://localhost:5173`)*
+*(Frontend SPA dashboard runs on `http://localhost:5173`)*
