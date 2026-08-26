@@ -29,28 +29,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
       }`}
     >
       <div className="space-y-6">
-        
-        {/* Brand Header with Integrated Inside Toggle Button */}
+
         <div className={`flex items-center ${isCollapsed ? 'flex-col space-y-3 items-center justify-center' : 'justify-between px-1'} py-1 transition-all duration-300`}>
-          
-          {/* Custom 3D ReachInbox Logo */}
+
           <div className="flex items-center overflow-hidden">
             {isCollapsed ? (
-              <img 
-                src={logoColapsImg} 
-                alt="ReachInbox Icon" 
-                className="h-11 w-11 object-contain shrink-0 filter drop-shadow-xs hover:scale-110 transition-transform duration-300 cursor-pointer" 
+              <img
+                src={logoColapsImg}
+                alt="ReachInbox Icon"
+                className="h-11 w-11 object-contain shrink-0 filter drop-shadow-xs hover:scale-110 transition-transform duration-300 cursor-pointer"
               />
             ) : (
-              <img 
-                src={logoImg} 
-                alt="ReachInbox Logo" 
-                className="h-16 sm:h-18 w-auto object-contain shrink-0 max-w-[215px] filter drop-shadow-xs hover:scale-[1.02] transition-transform duration-300 cursor-pointer" 
+              <img
+                src={logoImg}
+                alt="ReachInbox Logo"
+                className="h-16 sm:h-18 w-auto object-contain shrink-0 max-w-[215px] filter drop-shadow-xs hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
               />
             )}
           </div>
 
-          {/* Toggle Collapse Button Inside Header */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="h-8 w-8 rounded-xl flex items-center justify-center text-stone-400 hover:text-stone-900 hover:bg-stone-200/70 transition-all duration-200 shrink-0 transform hover:scale-110 active:scale-95"
@@ -64,7 +61,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
           </button>
         </div>
 
-        {/* Dashboard Main Menu */}
         <div className="relative group flex justify-center">
           <button
             onClick={() => onTabChange('dashboard')}
@@ -80,7 +76,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
             {!isCollapsed && <span className="transition-opacity duration-300">Dashboard</span>}
           </button>
 
-          {/* Hover Tooltip when Collapsed */}
           {isCollapsed && (
             <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-stone-900 text-white text-xs font-bold rounded-xl shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 z-50 whitespace-nowrap translate-x-1 group-hover:translate-x-0">
               Dashboard
@@ -88,7 +83,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
           )}
         </div>
 
-        {/* EMAIL MANAGEMENT Section */}
         <div className="space-y-2">
           {!isCollapsed ? (
             <p className="px-4 text-[10px] font-extrabold uppercase tracking-wider text-stone-400 mb-2 transition-opacity duration-300">
@@ -98,7 +92,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
             <div className="h-px bg-stone-200/80 my-2 mx-2" />
           )}
 
-          {/* Scheduled Emails Nav Button */}
           <div className="relative group flex justify-center">
             <button
               onClick={() => onTabChange('scheduled')}
@@ -128,7 +121,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
               )}
             </button>
 
-            {/* Hover Tooltip when Collapsed */}
             {isCollapsed && (
               <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-stone-900 text-white text-xs font-bold rounded-xl shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 z-50 whitespace-nowrap flex items-center space-x-2 translate-x-1 group-hover:translate-x-0">
                 <span>Scheduled Emails</span>
@@ -141,7 +133,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
             )}
           </div>
 
-          {/* Sent / History Log Nav Button */}
           <div className="relative group flex justify-center">
             <button
               onClick={() => onTabChange('sent')}
@@ -159,7 +150,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
               </div>
             </button>
 
-            {/* Hover Tooltip when Collapsed */}
             {isCollapsed && (
               <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-stone-900 text-white text-xs font-bold rounded-xl shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 z-50 whitespace-nowrap translate-x-1 group-hover:translate-x-0">
                 Sent / History Log
@@ -171,10 +161,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
 
       </div>
 
-      {/* Bottom Support Widget */}
       <div className="pt-4 border-t border-[#E8E5DC]">
         {!isCollapsed ? (
-          <div 
+          <div
             onClick={() => setIsHelpOpen(true)}
             className="bg-white/80 border border-[#E8E5DC] rounded-2xl p-3.5 shadow-sm flex items-center space-x-3 transition-all duration-300 hover:border-stone-300 hover:shadow-md cursor-pointer hover:bg-stone-50/80 active:scale-95"
             title="Open ReachInbox Help & Support Drawer"
@@ -202,7 +191,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, stats 
         )}
       </div>
 
-      {/* Help & Support Interactive Modal */}
       <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
 
     </aside>

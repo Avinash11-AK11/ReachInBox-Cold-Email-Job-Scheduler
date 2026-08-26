@@ -20,7 +20,6 @@ export function startEmailWorker() {
 
       console.log(`\n📨 Processing Job [${job.id}] for recipient: ${recipient}`);
 
-      // 1. Idempotency Guard: Check Database status
       const emailRecord = await prisma.scheduledEmail.findUnique({
         where: { id: scheduledEmailId },
       });
@@ -35,13 +34,11 @@ export function startEmailWorker() {
         return;
       }
 
-      // Update status to PROCESSING
       await prisma.scheduledEmail.update({
         where: { id: scheduledEmailId },
         data: { status: 'PROCESSING', attempts: { increment: 1 } },
       });
 
-      // 2. Hourly Rate Limit Check via Redis Atomic Counter
       const rateLimitResult = await checkAndIncrementRateLimit(senderId, maxPerHour);
 
       if (!rateLimitResult.allowed) {
@@ -50,13 +47,11 @@ export function startEmailWorker() {
           `Rescheduling job [${job.id}] to next hour (in ${Math.round(rateLimitResult.delayMs / 1000)}s)...`
         );
 
-        // Reset status back to SCHEDULED in DB
         await prisma.scheduledEmail.update({
           where: { id: scheduledEmailId },
           data: { status: 'SCHEDULED' },
         });
 
-        // Delay job until next hour window
         await emailQueue.add('send-email', job.data, {
           delay: rateLimitResult.delayMs,
           jobId: `retry-ratelimit-${scheduledEmailId}-${Date.now()}`,
@@ -65,12 +60,10 @@ export function startEmailWorker() {
         return;
       }
 
-      // 3. Minimum Throttle Delay between individual sends
       if (minDelayMs > 0) {
         await new Promise((resolve) => setTimeout(resolve, minDelayMs));
       }
 
-      // 4. Send Email via Ethereal SMTP
       try {
         const { transporter, user: senderEmail } = await getEtherealTransporter();
 
@@ -84,7 +77,6 @@ export function startEmailWorker() {
 
         const previewUrl = getPreviewUrl(info) || null;
 
-        // 5. Atomic State Update in Database
         await prisma.scheduledEmail.update({
           where: { id: scheduledEmailId },
           data: {

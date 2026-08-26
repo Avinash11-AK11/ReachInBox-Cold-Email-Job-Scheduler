@@ -11,8 +11,7 @@ export const QuickTips: React.FC = () => {
 
   return (
     <div className="clay-card rounded-3xl p-6 sm:p-7 relative select-none overflow-hidden">
-      
-      {/* Close button */}
+
       <button
         onClick={() => setVisible(false)}
         className="absolute top-4 right-4 text-stone-400 hover:text-stone-700 p-1.5 rounded-full hover:bg-stone-100 transition z-20"
@@ -27,11 +26,10 @@ export const QuickTips: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-        
-        {/* Tip 1 - Schedule Smart with Prominent 3D Clock Pillow Asset */}
+
         <div className="flex items-center space-x-4 pr-0 lg:pr-6 lg:border-r border-stone-200/80">
           <div className="shrink-0 relative flex items-center justify-center">
-            {/* Soft Ambient Radial Glow */}
+
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-28 w-28 rounded-full bg-gradient-to-tr from-[#FAF4EB]/90 via-[#F3E7D5]/50 to-transparent blur-2xl pointer-events-none" />
 
             <img
@@ -48,10 +46,9 @@ export const QuickTips: React.FC = () => {
           </div>
         </div>
 
-        {/* Tip 2 - Monitor Delivery with Prominent 3D Bar Chart Pillow Asset */}
         <div className="flex items-center space-x-4 px-0 lg:px-6 lg:border-r border-stone-200/80">
           <div className="shrink-0 relative flex items-center justify-center">
-            {/* Soft Ambient Radial Glow */}
+
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-28 w-28 rounded-full bg-gradient-to-tr from-[#FAF4EB]/90 via-[#F3E7D5]/50 to-transparent blur-2xl pointer-events-none" />
 
             <img
@@ -68,10 +65,9 @@ export const QuickTips: React.FC = () => {
           </div>
         </div>
 
-        {/* Tip 3 - Use Templates with Prominent 3D Template Folder Asset */}
         <div className="flex items-center space-x-4 pl-0 lg:pl-6">
           <div className="shrink-0 relative flex items-center justify-center">
-            {/* Soft Ambient Radial Glow */}
+
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-28 w-28 rounded-full bg-gradient-to-tr from-[#FAF4EB]/90 via-[#F3E7D5]/50 to-transparent blur-2xl pointer-events-none" />
 
             <img

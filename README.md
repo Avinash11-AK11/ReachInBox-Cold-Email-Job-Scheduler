@@ -123,22 +123,3 @@ cd frontend
 npm run dev
 ```
 *(Runs React dashboard on `http://localhost:5173`)*
-
----
-
-## 🗺️ Assignment Requirement Mapping
-
-| Requirement | Implementation File | Status |
-| :--- | :--- | :---: |
-| **Node.js & TypeScript Backend** | `backend/src/server.ts` | Verified |
-| **Relational Database** | MySQL 8.0 via `backend/prisma/schema.prisma` | Verified |
-| **Persistent Queue (No Cron)** | BullMQ + Redis `backend/src/queues/emailQueue.ts` | Verified |
-| **Configurable Concurrency** | `backend/src/queues/emailWorker.ts` (`WORKER_CONCURRENCY=5`) | Verified |
-| **Minimum Email Delay** | `backend/src/queues/emailWorker.ts` (`MIN_EMAIL_DELAY_MS=2000`) | Verified |
-| **Hourly Rate Limiting** | `backend/src/utils/rateLimiter.ts` (`MAX_EMAILS_PER_HOUR=100`) | Verified |
-| **Idempotency Guard** | `backend/src/queues/emailWorker.ts` DB status check | Verified |
-| **Server Restart Recovery** | Redis `ZSET` + MySQL DB persistence | Verified |
-| **Fake SMTP Delivery** | Nodemailer with Ethereal Email test accounts | Verified |
-| **Google OAuth Login** | Passport.js Google Strategy | Verified |
-| **React.js + Tailwind Frontend** | `frontend/src/pages/DashboardPage.tsx` | Verified |
-

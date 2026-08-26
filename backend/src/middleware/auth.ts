@@ -6,7 +6,6 @@ export async function isAuthenticated(req: Request, res: Response, next: NextFun
     return next();
   }
 
-  // Development bypass / fallback user if session not active
   if (process.env.NODE_ENV === 'development' || !process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID === 'your-google-client-id') {
     let devUser = await prisma.user.findFirst({
       where: { email: 'demo.user@reachinbox.ai' },

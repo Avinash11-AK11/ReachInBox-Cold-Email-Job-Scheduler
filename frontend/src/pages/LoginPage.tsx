@@ -12,14 +12,12 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-[#F6F5F2] flex flex-col justify-center items-center px-4 overflow-hidden select-none">
-      
-      {/* Background ambient light blobs */}
+
       <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-amber-200/30 blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-stone-300/30 blur-3xl pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-md">
-        
-        {/* Logo Banner */}
+
         <div className="text-center mb-8">
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#ECE0CF] to-[#D9C7B2] shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),0_8px_20px_rgba(180,150,120,0.25)] border border-white mb-4 transform hover:scale-105 transition">
             <Send className="h-8 w-8 text-stone-800 transform -rotate-12" />
@@ -32,7 +30,6 @@ export const LoginPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Login Card */}
         <div className="clay-card rounded-3xl p-8 shadow-xl">
           <div className="text-center mb-6">
             <h2 className="text-xl font-extrabold text-stone-900">Welcome back</h2>
@@ -40,7 +37,7 @@ export const LoginPage: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            {/* Primary Google Login Button */}
+
             <button
               onClick={handleGoogleLogin}
               className="w-full flex items-center justify-center space-x-3 rounded-2xl border border-stone-200/90 bg-white py-3.5 px-4 text-xs font-bold text-stone-800 shadow-sm transition hover:bg-stone-50 active:scale-[0.98]"
@@ -66,7 +63,6 @@ export const LoginPage: React.FC = () => {
               <span>Sign in with Google</span>
             </button>
 
-            {/* Dev Login Bypass Button */}
             <button
               onClick={handleDevLogin}
               className="clay-button-primary w-full flex items-center justify-center space-x-2 rounded-2xl py-3.5 px-4 text-xs font-extrabold text-stone-900 shadow-md active:scale-[0.98]"
@@ -77,7 +73,6 @@ export const LoginPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Feature Highlights */}
           <div className="mt-8 border-t border-stone-200/70 pt-6 space-y-3">
             <div className="flex items-center text-xs font-semibold text-stone-600">
               <CheckCircle2 className="mr-2.5 h-4 w-4 text-emerald-600 shrink-0" />

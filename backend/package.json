@@ -4,12 +4,14 @@
   "description": "Backend service for ReachInbox Email Scheduler built with Express, TypeScript, Prisma MySQL, Redis, and BullMQ",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/server.js",
+    "build": "prisma generate && tsc",
+    "start": "prisma db push --accept-data-loss && node dist/server.js",
+    "start:server": "node dist/server.js",
+    "start:worker": "node dist/worker.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "worker": "ts-node-dev --respawn --transpile-only src/worker.ts",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:push": "prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

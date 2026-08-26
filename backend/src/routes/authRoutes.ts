@@ -8,7 +8,6 @@ router.get('/me', getMe);
 router.post('/logout', logout);
 router.get('/dev-login', devLogin);
 
-// Google OAuth endpoints
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get(

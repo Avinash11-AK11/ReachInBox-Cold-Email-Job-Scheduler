@@ -10,7 +10,7 @@ import {
   parseLeadsFromFile,
 } from '../controllers/emailController';
 
-const upload = multer({ limits: { fileSize: 10 * 1024 * 1024 } }); // 10MB limit
+const upload = multer({ limits: { fileSize: 10 * 1024 * 1024 } });
 const router = Router();
 
 router.use(isAuthenticated);

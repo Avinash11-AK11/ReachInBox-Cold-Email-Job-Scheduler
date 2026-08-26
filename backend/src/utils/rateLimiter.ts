@@ -23,7 +23,7 @@ export async function checkAndIncrementRateLimit(
   const count = await redisConnection.incr(key);
 
   if (count === 1) {
-    // Set 1-hour TTL on the rate-limiting key
+
     await redisConnection.expire(key, 3600);
   }
 

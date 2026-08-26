@@ -34,7 +34,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
     setLoading(true);
 
     try {
-      // Send real support ticket email to chavdaavinsh24@gmail.com via BullMQ queue
+
       await scheduleCampaignApi({
         subject: `[SUPPORT TICKET] - ${topic}: ${subject}`,
         body: `SUPPORT TICKET REQUEST\n-----------------------\nFrom Name: ${senderName}\nFrom Email: ${senderEmail}\nTopic: ${topic}\nSubmitted At: ${new Date().toLocaleString()}\n\nMESSAGE DETAILS:\n${message}`,
@@ -60,16 +60,14 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      {/* Backdrop */}
+
       <div
         className="fixed inset-0 bg-stone-900/50 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal Container */}
       <div className="relative w-full max-w-lg rounded-3xl border border-stone-200/90 bg-white shadow-2xl overflow-hidden text-stone-900 flex flex-col animate-in zoom-in-95 duration-150 select-none z-50">
-        
-        {/* Modal Header Bar */}
+
         <div className="flex items-center justify-between border-b border-stone-200/80 px-6 py-4 bg-[#F9F8F6]">
           <div className="flex items-center space-x-3">
             <div className="clay-icon-pill h-10 w-10 rounded-2xl flex items-center justify-center shadow-xs">
@@ -80,7 +78,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
               <p className="text-xs text-stone-400 font-medium">Direct inquiry line to chavdaavinsh24@gmail.com</p>
             </div>
           </div>
-          
+
           <button
             onClick={onClose}
             className="rounded-full p-2 text-stone-400 hover:bg-stone-200/80 hover:text-stone-800 transition"
@@ -90,7 +88,6 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Modal Body Form */}
         <div className="p-6">
           {sentSuccess ? (
             <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-3xl text-center space-y-3 animate-in zoom-in-95 duration-200">
@@ -102,7 +99,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-              
+
               {error && (
                 <div className="rounded-2xl border border-rose-200 bg-rose-50 p-3.5 text-xs font-bold text-rose-700 flex items-center">
                   <AlertCircle className="mr-2 h-4 w-4 shrink-0" />
@@ -110,7 +107,6 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* User Info Bar (Read-only) */}
               <div className="grid grid-cols-2 gap-3 p-3 bg-stone-50 border border-stone-200/80 rounded-2xl text-xs font-semibold">
                 <div>
                   <span className="text-[10px] text-stone-400 uppercase font-bold block">Your Name</span>
@@ -122,7 +118,6 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              {/* Support Topic Dropdown */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-stone-800">Support Topic</label>
                 <select
@@ -137,7 +132,6 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 </select>
               </div>
 
-              {/* Subject Input */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-stone-800">
                   Subject <span className="text-rose-500">*</span>
@@ -152,7 +146,6 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
 
-              {/* Message Details */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-stone-800">
                   Message Details <span className="text-rose-500">*</span>
@@ -167,13 +160,11 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
 
-              {/* Target Support Email Notice */}
               <div className="flex items-center space-x-2 text-[11px] text-stone-400 font-medium pt-1">
                 <LifeBuoy className="h-3.5 w-3.5 text-stone-500 shrink-0" />
                 <span>Ticket will be sent directly to <span className="font-bold text-stone-700">chavdaavinsh24@gmail.com</span></span>
               </div>
 
-              {/* Submit Buttons */}
               <div className="flex items-center justify-end space-x-3 pt-3">
                 <button
                   type="button"

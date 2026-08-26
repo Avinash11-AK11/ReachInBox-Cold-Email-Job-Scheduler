@@ -9,7 +9,6 @@ export async function getMe(req: Request, res: Response) {
     });
   }
 
-  // Fallback dev user
   let devUser = await prisma.user.findFirst({
     where: { email: 'demo.user@reachinbox.ai' },
   });

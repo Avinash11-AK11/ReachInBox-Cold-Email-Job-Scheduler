@@ -35,7 +35,6 @@ export async function scheduleCampaign(req: Request, res: Response) {
 
     const campaignStartTime = startTime ? new Date(startTime) : new Date();
 
-    // Find or create default SenderAccount for user
     let senderAccount = await prisma.senderAccount.findFirst({
       where: { userId: user.id },
     });
@@ -54,7 +53,6 @@ export async function scheduleCampaign(req: Request, res: Response) {
       });
     }
 
-    // 1. Transaction to save Campaign and ScheduledEmail records
     const campaign = await prisma.campaign.create({
       data: {
         userId: user.id,
@@ -88,13 +86,11 @@ export async function scheduleCampaign(req: Request, res: Response) {
       data: scheduledEmailData,
     });
 
-    // Fetch created records to get IDs for BullMQ job queue
     const createdEmails = await prisma.scheduledEmail.findMany({
       where: { campaignId: campaign.id },
       orderBy: { createdAt: 'asc' },
     });
 
-    // 2. Add BullMQ delayed jobs
     const bulkJobs = createdEmails.map((emailRecord, index) => {
       const jobDelay = startDelayMs + index * delayStep;
       return {
@@ -225,7 +221,6 @@ export async function deleteScheduledEmail(req: Request, res: Response) {
       return res.status(404).json({ success: false, message: 'Scheduled email not found.' });
     }
 
-    // Try to remove from BullMQ queue
     try {
       const job = await emailQueue.getJob(`email-${id}`);
       if (job) await job.remove();

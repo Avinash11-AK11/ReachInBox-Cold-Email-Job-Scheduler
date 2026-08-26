@@ -57,13 +57,10 @@ export const StatsCard: React.FC<StatsCardProps> = ({ stats, loading }) => {
             <p className="text-[11px] text-stone-400 mt-1 font-medium">{card.subtext}</p>
           </div>
 
-          {/* 3D Icon Container using exact high-res custom assets */}
           <div className="shrink-0 relative flex items-center justify-center">
-            
-            {/* Soft Ambient Radial Glow */}
+
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-28 w-28 rounded-full bg-gradient-to-tr from-[#FAF4EB]/90 via-[#F3E7D5]/50 to-transparent blur-xl pointer-events-none" />
 
-            {/* Main 3D Icon Asset */}
             <img
               src={card.iconSrc}
               alt={card.title}

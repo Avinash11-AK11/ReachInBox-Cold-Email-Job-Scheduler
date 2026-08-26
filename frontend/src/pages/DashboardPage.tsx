@@ -64,7 +64,6 @@ export const DashboardPage: React.FC = () => {
   useEffect(() => {
     loadData(true);
 
-    // Auto-refresh queue stats every 5 seconds silently in real time
     const interval = setInterval(() => {
       loadData(false, true);
     }, 5000);
@@ -87,21 +86,18 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F6F5F2] text-stone-900 flex select-none">
-      
-      {/* Left Sidebar Navigation */}
+
       <Sidebar
         activeTab={sidebarTab === 'profile' ? 'dashboard' : sidebarTab}
         onTabChange={handleSidebarTabChange}
         stats={stats}
       />
 
-      {/* Main Workspace Canvas */}
       <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-6">
-        
-        {/* Render Scheduled Emails Screen if sidebarTab === 'scheduled' */}
+
         {sidebarTab === 'scheduled' ? (
           <>
-            {/* Top Header Bar for Scheduled Emails */}
+
             <Navbar
               title="Scheduled Emails"
               subtitle="View and manage all your scheduled email campaigns."
@@ -112,7 +108,6 @@ export const DashboardPage: React.FC = () => {
               onNavigateProfile={() => setSidebarTab('profile')}
             />
 
-            {/* Scheduled Emails Full Screen View */}
             <ScheduledEmailsView
               emails={scheduledEmails}
               stats={stats}
@@ -123,7 +118,7 @@ export const DashboardPage: React.FC = () => {
           </>
         ) : sidebarTab === 'sent' ? (
           <>
-            {/* Top Header Bar for Sent / History Log */}
+
             <Navbar
               title="Sent / History Log"
               subtitle="View all sent emails and their delivery status history."
@@ -134,7 +129,6 @@ export const DashboardPage: React.FC = () => {
               onNavigateProfile={() => setSidebarTab('profile')}
             />
 
-            {/* Sent / History Log View */}
             <SentHistoryView
               emails={[...sentEmails, ...failedEmails]}
               stats={stats}
@@ -144,7 +138,7 @@ export const DashboardPage: React.FC = () => {
           </>
         ) : sidebarTab === 'profile' ? (
           <>
-            {/* Profile View Header & Screen */}
+
             <Navbar
               title="Profile"
               subtitle="Manage your account details and preferences."
@@ -158,9 +152,9 @@ export const DashboardPage: React.FC = () => {
             <ProfileView stats={stats} />
           </>
         ) : (
-          /* Main Dashboard Screen */
+
           <>
-            {/* Top Header Bar */}
+
             <Navbar
               onRefresh={() => loadData(false)}
               refreshing={refreshing}
@@ -168,10 +162,8 @@ export const DashboardPage: React.FC = () => {
               onNavigateProfile={() => setSidebarTab('profile')}
             />
 
-            {/* 4 Stat Overview Cards */}
             <StatsCard stats={stats} loading={loading} />
 
-            {/* Tab Controls */}
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setActiveTab('scheduled')}
@@ -212,10 +204,8 @@ export const DashboardPage: React.FC = () => {
               )}
             </div>
 
-            {/* Split Grid: Main Overview Table (Left 7 cols) & Right Overview Cards (Right 5 cols) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              
-              {/* Main Table Panel - Fixed 564px height matching right panel */}
+
               <div className="lg:col-span-7">
                 <div className="clay-card rounded-3xl p-6 h-[564px] flex flex-col justify-between overflow-hidden select-none shadow-sm">
                   <div className="mb-3 shrink-0">
@@ -242,21 +232,18 @@ export const DashboardPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Right Statistics & Recent Activity Panel */}
               <div className="lg:col-span-5 flex flex-col">
                 <RightPanel stats={stats} recentEmails={[...scheduledEmails, ...sentEmails, ...failedEmails]} />
               </div>
 
             </div>
 
-            {/* Bottom Quick Tips Banner */}
             <QuickTips />
           </>
         )}
 
       </main>
 
-      {/* Compose Campaign Modal */}
       <ComposeModal
         isOpen={isComposeOpen}
         onClose={() => setIsComposeOpen(false)}

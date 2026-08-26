@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { EmailStats } from '../types';
-import { 
-  User, 
-  Mail, 
-  Send, 
-  AlertTriangle, 
-  Calendar, 
-  Pencil, 
-  Lock, 
-  Check, 
-  Moon, 
-  Bell, 
+import {
+  User,
+  Mail,
+  Send,
+  AlertTriangle,
+  Calendar,
+  Pencil,
+  Lock,
+  Check,
+  Moon,
+  Bell,
   CheckCircle2,
   ShieldCheck
 } from 'lucide-react';
@@ -62,11 +62,10 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(true);
 
-  // Sync avatar when user changes
   React.useEffect(() => {
     if (user?.name) setFullName(user.name);
     if (user?.email) setEmailAddress(user.email);
-    
+
     const saved = getCustomAvatar(user);
     if (saved) {
       setAvatarSrc(saved);
@@ -109,14 +108,11 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
   return (
     <div className="space-y-6 select-none animate-in fade-in duration-200 pb-12">
 
-      {/* Top Profile Banner Card */}
       <div className="clay-card rounded-3xl p-6 sm:p-8 shadow-sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          {/* Left Avatar & Primary Details (Col 7) */}
+
           <div className="lg:col-span-7 flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
-            
-            {/* Avatar Container with Edit Pencil & File Input */}
+
             <div className="relative shrink-0">
               <div className="h-28 w-28 rounded-full bg-gradient-to-tr from-[#ECE0CF] via-[#F5ECE0] to-[#D9C7B2] border-4 border-white shadow-md flex items-center justify-center overflow-hidden">
                 {avatarSrc ? (
@@ -132,22 +128,21 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
                   </div>
                 )}
               </div>
-              
-              <label 
+
+              <label
                 className="h-8 w-8 rounded-full bg-white border border-stone-200 shadow-md flex items-center justify-center text-stone-600 hover:text-stone-900 hover:bg-stone-50 transition absolute bottom-0 right-0 cursor-pointer"
                 title="Choose Profile Picture"
               >
                 <Pencil className="h-3.5 w-3.5" />
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="hidden" 
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
                   onChange={handleAvatarUpload}
                 />
               </label>
             </div>
 
-            {/* Name, Status, Joined Info */}
             <div className="space-y-2 text-center sm:text-left">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
                 <h2 className="text-xl sm:text-2xl font-extrabold text-stone-900">
@@ -171,7 +166,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
 
           </div>
 
-          {/* Right Account Overview Stats Box (Col 5) */}
           <div className="lg:col-span-5 bg-stone-50/90 border border-stone-200/80 rounded-2xl p-5 space-y-3.5 shadow-xs">
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-stone-500 mb-1">
               Account Overview
@@ -213,10 +207,8 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
         </div>
       </div>
 
-      {/* Middle Section: Account Information (Left) & Security & Authentication (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        
-        {/* Account Information Form Card */}
+
         <div className="clay-card rounded-3xl p-6 space-y-5 shadow-sm">
           <div>
             <h3 className="text-base font-extrabold text-stone-900">Account Information</h3>
@@ -224,7 +216,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
           </div>
 
           <form onSubmit={handleSaveChanges} className="space-y-4 text-xs font-semibold">
-            {/* Full Name Input */}
+
             <div className="space-y-1.5">
               <label className="block text-stone-700">Full Name</label>
               <input
@@ -237,7 +229,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
               />
             </div>
 
-            {/* Email Address Input (Read-only) */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="block text-stone-700">Email Address</label>
@@ -253,7 +244,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
               />
             </div>
 
-            {/* Save Changes Button */}
             <div className="pt-3">
               <button
                 type="submit"
@@ -279,7 +269,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
           </form>
         </div>
 
-        {/* Security & Authentication Card */}
         <div className="clay-card rounded-3xl p-6 space-y-4 shadow-sm">
           <div className="space-y-4">
             <div>
@@ -288,7 +277,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ stats }) => {
             </div>
 
             <div className="space-y-4">
-              {/* Connection Row: Google OAuth vs Demo Mode */}
+
               <div className="flex items-center justify-between p-4 rounded-2xl border border-stone-200/80 bg-stone-50/50">
                 <div className="flex items-center space-x-3.5">
                   <div className="h-9 w-9 rounded-2xl bg-white border border-stone-200 flex items-center justify-center shrink-0 shadow-xs">

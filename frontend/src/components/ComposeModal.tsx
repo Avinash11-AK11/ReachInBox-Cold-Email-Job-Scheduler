@@ -16,22 +16,20 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
   const [manualRecipients, setManualRecipients] = useState('');
   const [parsedFileEmails, setParsedFileEmails] = useState<string[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
-  
-  // Schedule settings
+
   const [startTime, setStartTime] = useState(() => {
     const now = new Date();
-    now.setMinutes(now.getMinutes() + 2); // default 2 minutes in future
+    now.setMinutes(now.getMinutes() + 2);
     return now.toISOString().slice(0, 16);
   });
-  const [delayBetweenEmails, setDelayBetweenEmails] = useState(2000); // 2 seconds
-  const [hourlyLimit, setHourlyLimit] = useState(100); // 100 per hour
+  const [delayBetweenEmails, setDelayBetweenEmails] = useState(2000);
+  const [hourlyLimit, setHourlyLimit] = useState(100);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  // Combine manual text area + uploaded file emails
   const manualList = extractAndDeduplicateEmails(manualRecipients);
   const allUniqueEmails = Array.from(new Set([...manualList, ...parsedFileEmails]));
 
@@ -78,16 +76,14 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      {/* Backdrop */}
+
       <div
         className="fixed inset-0 bg-stone-900/50 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal Container */}
       <div className="relative w-full max-w-2xl rounded-3xl border border-stone-200/90 bg-white shadow-2xl overflow-hidden text-stone-900 flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-150 select-none z-50">
-        
-        {/* Modal Header Bar */}
+
         <div className="flex items-center justify-between border-b border-stone-200/80 px-6 py-4 bg-[#F9F8F6] shrink-0">
           <div className="flex items-center space-x-3">
             <div className="clay-icon-pill h-10 w-10 rounded-2xl flex items-center justify-center shadow-xs">
@@ -98,7 +94,7 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
               <p className="text-xs text-stone-400 font-medium">Configure email outreach queue parameters</p>
             </div>
           </div>
-          
+
           <button
             onClick={onClose}
             className="rounded-full p-2 text-stone-400 hover:bg-stone-200/80 hover:text-stone-800 transition"
@@ -108,9 +104,8 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
           </button>
         </div>
 
-        {/* Modal Form Scrollable Area */}
         <form id="compose-form" onSubmit={handleSubmit} className="overflow-y-auto px-6 py-5 space-y-5 flex-1">
-          
+
           {error && (
             <div className="rounded-2xl border border-rose-200 bg-rose-50 p-3.5 text-xs font-bold text-rose-700 flex items-center">
               <AlertCircle className="mr-2 h-4 w-4 shrink-0" />
@@ -118,8 +113,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
             </div>
           )}
 
-
-          {/* Subject */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-stone-800">
               Email Subject <span className="text-rose-500">*</span>
@@ -134,7 +127,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
             />
           </div>
 
-          {/* Body */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-stone-800">
               Email Body <span className="text-rose-500">*</span>
@@ -149,7 +141,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
             />
           </div>
 
-          {/* Lead File Upload */}
           <LeadUploader
             onLeadsExtracted={(emails, file) => {
               setParsedFileEmails(emails);
@@ -158,7 +149,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
             detectedCount={allUniqueEmails.length}
           />
 
-          {/* Manual Recipients Input */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-stone-800">
               Or Enter Recipient Emails (Comma or Newline separated)
@@ -172,7 +162,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
             />
           </div>
 
-          {/* Scheduling Configuration Controls */}
           <div className="rounded-2xl border border-stone-200/90 bg-[#FAF9F6] p-4 space-y-4 shadow-xs">
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-stone-800 flex items-center">
               <Clock className="mr-1.5 h-4 w-4 text-amber-900" />
@@ -180,7 +169,7 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {/* Start Time */}
+
               <div className="space-y-1">
                 <label className="block text-xs font-bold text-stone-700">Start Time</label>
                 <input
@@ -192,7 +181,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
                 />
               </div>
 
-              {/* Inter-email Delay */}
               <div className="space-y-1">
                 <label className="block text-xs font-bold text-stone-700">
                   Delay Between Sends (ms)
@@ -209,7 +197,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
                 <span className="text-[10px] text-stone-400 block font-medium">e.g. 2000ms = 2s</span>
               </div>
 
-              {/* Hourly Limit */}
               <div className="space-y-1">
                 <label className="block text-xs font-bold text-stone-700">
                   Max Emails / Hour
@@ -228,9 +215,8 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
           </div>
         </form>
 
-        {/* Pinned Sticky Footer Actions Bar */}
         <div className="border-t border-stone-200/80 bg-[#F9F8F6] px-6 py-4 flex items-center justify-between shrink-0 z-20">
-          {/* Detected Recipient Count */}
+
           <div className="flex items-center space-x-2 text-xs font-bold text-stone-700">
             <Users className="h-4 w-4 text-stone-500" />
             <span>
@@ -245,7 +231,6 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({ isOpen, onClose, onS
             </span>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center space-x-3">
             <button
               type="button"

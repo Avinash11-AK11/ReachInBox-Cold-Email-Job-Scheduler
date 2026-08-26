@@ -17,7 +17,6 @@
   }
 }
 
-/* Custom 3D & Claymorphic Light UI Utilities */
 .clay-card {
   background: #FFFFFF;
   border: 1px solid rgba(229, 226, 218, 0.8);
@@ -60,7 +59,6 @@
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9), 0 4px 10px rgba(220, 50, 50, 0.15);
 }
 
-/* Floating Animations for 3D Clay Spheres & Cards */
 @keyframes float {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
@@ -128,7 +126,6 @@
   animation: ground-shadow 4s ease-in-out infinite;
 }
 
-/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

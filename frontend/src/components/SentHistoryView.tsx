@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { ScheduledEmail, EmailStats } from '../types';
 import { scheduleCampaignApi } from '../services/api';
-import { 
-  Send, 
-  CheckCircle2, 
-  Clock, 
-  AlertTriangle, 
-  Search, 
-  Filter, 
-  Calendar, 
-  Download, 
-  MoreHorizontal, 
-  ChevronLeft, 
-  ChevronRight, 
+import {
+  Send,
+  CheckCircle2,
+  Clock,
+  AlertTriangle,
+  Search,
+  Filter,
+  Calendar,
+  Download,
+  MoreHorizontal,
+  ChevronLeft,
+  ChevronRight,
   ChevronDown,
   ExternalLink,
   Check,
@@ -44,20 +44,18 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
   const [isPerPageOpen, setIsPerPageOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  
+
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
-  // Resend Email Modal State
   const [resendTargetRow, setResendTargetRow] = useState<any>(null);
   const [isResending, setIsResending] = useState(false);
   const [resendSuccess, setResendSuccess] = useState(false);
 
-  // Map real emails from database
   const displayRows = emails.map((e, idx) => {
     const parts = e.recipient.split('@')[0].split('.');
-    const initials = parts.length > 1 
+    const initials = parts.length > 1
       ? (parts[0][0] + parts[1][0]).toUpperCase()
       : e.recipient.substring(0, 2).toUpperCase();
 
@@ -77,14 +75,14 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
       recipient: e.recipient,
       subject: e.subject,
       campaign: (e.campaign?.subject ? e.campaign.subject.split(' ')[0] + ' Campaign' : 'Outreach Campaign'),
-      sentTime: e.sentAt 
+      sentTime: e.sentAt
         ? new Date(e.sentAt).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
         : new Date(e.updatedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
       status: e.status,
-      details: e.status === 'SENT' 
-        ? 'Delivered to inbox 250ms' 
-        : e.status === 'FAILED' 
-        ? (e.errorMessage || 'Delivery failed') 
+      details: e.status === 'SENT'
+        ? 'Delivered to inbox 250ms'
+        : e.status === 'FAILED'
+        ? (e.errorMessage || 'Delivery failed')
         : 'Queued - Waiting to send',
       initials,
       bgColor: bgColors[idx % bgColors.length],
@@ -93,13 +91,12 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
     };
   });
 
-  // Filter rows based on search, status dropdown, and date range
   const filteredRows = displayRows.filter(row => {
     if (statusFilter !== 'All' && row.status !== statusFilter) return false;
     if (searchTerm) {
       const q = searchTerm.toLowerCase();
-      if (!row.recipient.toLowerCase().includes(q) && 
-          !row.subject.toLowerCase().includes(q) && 
+      if (!row.recipient.toLowerCase().includes(q) &&
+          !row.subject.toLowerCase().includes(q) &&
           !row.campaign.toLowerCase().includes(q)) {
         return false;
       }
@@ -107,14 +104,12 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
     return true;
   });
 
-  // Dynamic Pagination Slice Logic
   const totalPages = Math.ceil(filteredRows.length / perPage) || 1;
   const validCurrentPage = Math.min(currentPage, totalPages);
   const startIndex = (validCurrentPage - 1) * perPage;
   const endIndex = Math.min(startIndex + perPage, filteredRows.length);
   const paginatedRows = filteredRows.slice(startIndex, endIndex);
 
-  // Calculate real dynamic numbers and percentages from MySQL database stats
   const totalCount = stats.total > 0 ? stats.total : emails.length;
   const sentCount = stats.sent;
   const scheduledCount = stats.scheduled;
@@ -141,7 +136,7 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
   };
 
   const exportToCSV = () => {
-    const csvContent = 'data:text/csv;charset=utf-8,' + 
+    const csvContent = 'data:text/csv;charset=utf-8,' +
       ['Recipient,Subject,Campaign,Sent Time,Status,Details']
         .concat(filteredRows.map(r => `"${r.recipient}","${r.subject}","${r.campaign}","${r.sentTime}","${r.status}","${r.details}"`))
         .join('\n');
@@ -156,11 +151,9 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
 
   return (
     <div className="space-y-6 select-none pb-12">
-      
-      {/* 4 Stat Overview Cards with 100% real dynamic database numbers & custom 3D assets */}
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        
-        {/* Card 1: Total Sent */}
+
         <div className="clay-card rounded-3xl p-6 flex items-center justify-between transition hover:-translate-y-0.5 hover:shadow-md relative overflow-hidden min-h-[140px]">
           <div>
             <p className="text-xs font-semibold text-stone-500">Total Sent</p>
@@ -180,7 +173,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
           </div>
         </div>
 
-        {/* Card 2: Delivered */}
         <div className="clay-card rounded-3xl p-6 flex items-center justify-between transition hover:-translate-y-0.5 hover:shadow-md relative overflow-hidden min-h-[140px]">
           <div>
             <p className="text-xs font-semibold text-stone-500">Delivered</p>
@@ -200,7 +192,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
           </div>
         </div>
 
-        {/* Card 3: Pending */}
         <div className="clay-card rounded-3xl p-6 flex items-center justify-between transition hover:-translate-y-0.5 hover:shadow-md relative overflow-hidden min-h-[140px]">
           <div>
             <p className="text-xs font-semibold text-stone-500">Pending</p>
@@ -220,7 +211,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
           </div>
         </div>
 
-        {/* Card 4: Failed */}
         <div className="clay-card rounded-3xl p-6 flex items-center justify-between transition hover:-translate-y-0.5 hover:shadow-md relative overflow-hidden min-h-[140px]">
           <div>
             <p className="text-xs font-semibold text-stone-500">Failed</p>
@@ -242,10 +232,8 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
 
       </div>
 
-      {/* Filter & Action Toolbar matching screenshot */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-        
-        {/* Search Input */}
+
         <div className="relative w-full sm:w-96">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 pointer-events-none" />
           <input
@@ -272,10 +260,8 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
           )}
         </div>
 
-        {/* Action Controls */}
         <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
-          
-          {/* Status Filter Dropdown */}
+
           <div className="relative">
             <button
               onClick={() => {
@@ -317,7 +303,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
             )}
           </div>
 
-          {/* Date Picker Button */}
           <div className="relative">
             <button
               onClick={() => {
@@ -351,7 +336,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
             )}
           </div>
 
-          {/* Export Button */}
           <button
             onClick={exportToCSV}
             className="flex items-center space-x-2 rounded-2xl bg-white border border-stone-200/80 px-4 py-2.5 text-xs font-bold text-stone-700 shadow-sm hover:bg-stone-50 transition active:scale-95"
@@ -363,7 +347,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
         </div>
       </div>
 
-      {/* Sent / History Log Data Table */}
       <div className="clay-card rounded-3xl shadow-sm relative z-10">
         <div className="overflow-x-auto rounded-3xl [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
           <table className="w-full text-left text-xs">
@@ -390,11 +373,11 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
                   const isActive = activeMenuId === row.id;
 
                   return (
-                    <tr 
-                      key={row.id} 
+                    <tr
+                      key={row.id}
                       className={`transition ${isActive ? 'relative z-30 bg-stone-50' : 'hover:bg-stone-50/80'}`}
                     >
-                      {/* Recipient with Initials Avatar */}
+
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
                           <div className={`h-8 w-8 rounded-full flex items-center justify-center font-bold text-[11px] shrink-0 ${row.bgColor}`}>
@@ -406,22 +389,18 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
                         </div>
                       </td>
 
-                      {/* Subject */}
                       <td className="px-6 py-4 font-semibold text-stone-900 max-w-[200px] truncate">
                         {row.subject}
                       </td>
 
-                      {/* Campaign */}
                       <td className="px-6 py-4 text-stone-600 font-medium max-w-[160px] truncate">
                         {row.campaign}
                       </td>
 
-                      {/* Sent Time */}
                       <td className="px-6 py-4 whitespace-nowrap text-stone-500 font-medium">
                         {row.sentTime}
                       </td>
 
-                      {/* Status */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         {row.status === 'SENT' ? (
                           <span className="inline-flex items-center space-x-1 rounded-full bg-emerald-100/90 border border-emerald-300/80 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800">
@@ -441,7 +420,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
                         )}
                       </td>
 
-                      {/* Delivery Details */}
                       <td className="px-6 py-4 whitespace-nowrap text-stone-600">
                         {row.status === 'SENT' ? (
                           <div className="flex items-center space-x-2">
@@ -476,9 +454,8 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
                         )}
                       </td>
 
-                      {/* Actions */}
                       <td className="px-6 py-4 text-right whitespace-nowrap relative">
-                        <button 
+                        <button
                           onClick={() => setActiveMenuId(isActive ? null : row.id)}
                           className="h-8 w-8 inline-flex items-center justify-center rounded-xl bg-stone-100/80 text-stone-500 hover:text-stone-900 hover:bg-stone-200 transition"
                         >
@@ -487,9 +464,9 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
 
                         {isActive && (
                           <>
-                            <div 
-                              className="fixed inset-0 z-40" 
-                              onClick={() => setActiveMenuId(null)} 
+                            <div
+                              className="fixed inset-0 z-40"
+                              onClick={() => setActiveMenuId(null)}
                             />
                             <div className="absolute right-14 top-1/2 -translate-y-1/2 w-44 rounded-2xl bg-white border border-stone-200 shadow-xl py-2 z-50 text-left">
                               {row.previewUrl && (
@@ -525,17 +502,14 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
           </table>
         </div>
 
-        {/* Pagination Bar with interactive Items per page dropdown */}
         <div className="px-6 py-4 border-t border-stone-200/60 bg-stone-50/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-stone-500">
-          
-          {/* Results count */}
+
           <div>
             Showing <span className="font-bold text-stone-900">{filteredRows.length > 0 ? startIndex + 1 : 0}</span> to <span className="font-bold text-stone-900">{endIndex}</span> of <span className="font-bold text-stone-900">{filteredRows.length}</span> results
           </div>
 
-          {/* Dynamic Page Number Buttons */}
           <div className="flex items-center space-x-1.5">
-            <button 
+            <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={validCurrentPage === 1}
               className="h-8 w-8 flex items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 transition disabled:opacity-40"
@@ -557,7 +531,7 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
               </button>
             ))}
 
-            <button 
+            <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={validCurrentPage === totalPages || filteredRows.length === 0}
               className="h-8 w-8 flex items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 transition disabled:opacity-40"
@@ -566,7 +540,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
             </button>
           </div>
 
-          {/* Interactive Items per page dropdown */}
           <div className="relative">
             <button
               onClick={() => {
@@ -606,7 +579,6 @@ export const SentHistoryView: React.FC<SentHistoryViewProps> = ({
 
       </div>
 
-      {/* Resend Email Custom Clay Confirmation Modal */}
       {resendTargetRow && (
         <div className="fixed inset-0 bg-stone-900/50 backdrop-blur-xs flex items-center justify-center z-50 p-4 animate-in fade-in duration-200 select-none">
           <div className="bg-white rounded-3xl border border-stone-200/90 shadow-2xl max-w-md w-full p-6 space-y-5 animate-in zoom-in-95 duration-150 text-stone-900">

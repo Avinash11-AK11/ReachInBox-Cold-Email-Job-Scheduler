@@ -30,31 +30,24 @@ export const EmailTable: React.FC<React.PropsWithChildren<EmailTableProps>> = ({
     );
   }
 
-  // Empty State with animated floating envelope, breathing ground shadow, radial backdrop pulse & floating spheres
   if (emails.length === 0) {
     return (
       <div className="w-full bg-[#FAF9F6]/80 border border-stone-200/80 rounded-2xl p-6 sm:p-8 h-[450px] flex flex-col items-center justify-center text-center select-none relative overflow-hidden">
-        
-        {/* Soft Background Radial Ambient Glow with Pulse */}
+
         <div className="absolute top-28 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-gradient-to-tr from-amber-100/40 via-stone-100/30 to-transparent blur-3xl animate-pulse pointer-events-none" />
 
-        {/* 3D Envelope Container with Floating Spheres & Ground Shadow */}
         <div className="relative mb-3 flex flex-col items-center justify-center h-48 w-64">
-          
-          {/* Floating Sphere 1: Top Left */}
+
           <div className="absolute top-1 left-6 h-7 w-7 rounded-full bg-gradient-to-tr from-[#EBE0D0] via-[#F8F3EA] to-white border border-white shadow-[0_6px_16px_rgba(180,150,120,0.25)] animate-float-delayed z-20" />
 
-          {/* Floating Sphere 2: Top Right */}
           <div className="absolute top-3 right-8 h-8 w-8 rounded-full bg-gradient-to-tr from-[#E5DAC8] via-[#F5ECE0] to-white border border-white/90 shadow-[0_8px_18px_rgba(180,150,120,0.25)] animate-float z-20" />
 
-          {/* Main 3D Envelope Asset */}
           <img
             src={emailIcon}
             alt="No Emails"
             className="h-36 w-36 object-contain animate-float-card filter drop-shadow-[0_12px_24px_rgba(180,150,120,0.3)] relative z-10"
           />
 
-          {/* Ground Shadow */}
           <div className="w-32 h-3 bg-gradient-to-r from-transparent via-[#C8B8A2]/50 to-transparent rounded-full blur-md animate-ground-shadow mt-[-8px] z-0" />
         </div>
 
@@ -97,7 +90,7 @@ export const EmailTable: React.FC<React.PropsWithChildren<EmailTableProps>> = ({
 
   return (
     <div className="w-full h-[450px] rounded-2xl border border-stone-200/90 bg-white overflow-hidden shadow-xs flex flex-col">
-      <div 
+      <div
         className="flex-1 overflow-y-auto overflow-x-auto min-h-0 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-stone-300/80 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent"
       >
         <table className="w-full text-left text-xs">
@@ -115,8 +108,7 @@ export const EmailTable: React.FC<React.PropsWithChildren<EmailTableProps>> = ({
           <tbody className="divide-y divide-stone-200/60 text-stone-800 font-medium">
             {emails.map((email) => (
               <tr key={email.id} className="transition hover:bg-stone-50/80">
-                
-                {/* Recipient */}
+
                 <td className="px-6 py-4 font-bold text-stone-900 max-w-[200px] truncate">
                   <div className="flex items-center space-x-2">
                     <Mail className="h-3.5 w-3.5 text-stone-500 shrink-0" />
@@ -124,12 +116,10 @@ export const EmailTable: React.FC<React.PropsWithChildren<EmailTableProps>> = ({
                   </div>
                 </td>
 
-                {/* Subject */}
                 <td className="px-6 py-4 max-w-[250px] truncate text-stone-700 font-medium">
                   {email.subject}
                 </td>
 
-                {/* Date */}
                 <td className="px-6 py-4 text-stone-500 whitespace-nowrap">
                   <div className="flex items-center space-x-1.5">
                     <Calendar className="h-3.5 w-3.5 text-stone-400" />
@@ -143,7 +133,6 @@ export const EmailTable: React.FC<React.PropsWithChildren<EmailTableProps>> = ({
                   </div>
                 </td>
 
-                {/* Status Badge */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-bold ${getBadgeStyle(
@@ -157,7 +146,6 @@ export const EmailTable: React.FC<React.PropsWithChildren<EmailTableProps>> = ({
                   </span>
                 </td>
 
-                {/* Sent Ethereal Preview URL */}
                 {type === 'sent' && (
                   <td className="px-6 py-4 whitespace-nowrap">
                     {email.previewUrl ? (

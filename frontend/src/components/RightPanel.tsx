@@ -18,13 +18,11 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
   const scheduledPercent = total > 0 ? Math.round((stats.scheduled / total) * 100) : 0;
   const failedPercent = total > 0 ? Math.round((stats.failed / total) * 100) : 0;
 
-  // Calculate SVG Donut chart angles if total > 0
-  const circumference = 2 * Math.PI * 42; // r=42
+  const circumference = 2 * Math.PI * 42;
   const sentDash = (sentPercent / 100) * circumference;
   const scheduledDash = (scheduledPercent / 100) * circumference;
   const failedDash = (failedPercent / 100) * circumference;
 
-  // Sort real emails dynamically based on selected sortOrder
   const sortedActivities = [...recentEmails].sort((a, b) => {
     const timeA = new Date(a.sentAt || a.updatedAt || a.scheduledFor || 0).getTime();
     const timeB = new Date(b.sentAt || b.updatedAt || b.scheduledFor || 0).getTime();
@@ -33,8 +31,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
 
   return (
     <div className="space-y-6 select-none">
-      
-      {/* Delivery Overview Card */}
+
       <div className="clay-card rounded-3xl p-6 relative overflow-hidden select-none shadow-sm">
         <div>
           <h3 className="text-sm font-extrabold text-stone-900">Delivery Overview</h3>
@@ -42,13 +39,12 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
         </div>
 
         <div className="mt-6 flex items-center justify-between gap-6 px-2">
-          
-          {/* Donut Ring Indicator */}
+
           <div className="relative flex items-center justify-center shrink-0">
-            {/* SVG Donut Ring */}
+
             <div className="relative h-36 w-36 flex items-center justify-center">
               <svg className="h-full w-full transform -rotate-90" viewBox="0 0 100 100">
-                {/* Default Empty 3D Beige Ring */}
+
                 <circle
                   cx="50"
                   cy="50"
@@ -60,7 +56,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
 
                 {total > 0 && (
                   <>
-                    {/* Sent (Green) */}
+
                     {stats.sent > 0 && (
                       <circle
                         cx="50"
@@ -75,7 +71,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
                       />
                     )}
 
-                    {/* Scheduled (Amber) */}
                     {stats.scheduled > 0 && (
                       <circle
                         cx="50"
@@ -90,7 +85,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
                       />
                     )}
 
-                    {/* Failed (Rose) */}
                     {stats.failed > 0 && (
                       <circle
                         cx="50"
@@ -108,7 +102,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
                 )}
               </svg>
 
-              {/* Inner Center Circle with Total Count */}
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span className="text-2xl font-extrabold text-stone-900 leading-none">{stats.total}</span>
                 <span className="text-[11px] font-semibold text-stone-400 mt-1">Total</span>
@@ -116,10 +109,8 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
             </div>
           </div>
 
-          {/* Stats Legend List */}
           <div className="space-y-4 text-xs flex-1 max-w-[200px] font-medium">
-            
-            {/* Sent Row */}
+
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2.5">
                 <span className="h-3 w-3 rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-emerald-300 shadow-xs shrink-0" />
@@ -128,7 +119,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
               <span className="font-bold text-stone-400">{stats.sent} ({sentPercent}%)</span>
             </div>
 
-            {/* Scheduled Row */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2.5">
                 <span className="h-3 w-3 rounded-full bg-gradient-to-tr from-amber-700 via-amber-500 to-amber-300 shadow-xs shrink-0" />
@@ -137,7 +127,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
               <span className="font-bold text-stone-400">{stats.scheduled} ({scheduledPercent}%)</span>
             </div>
 
-            {/* Failed Row */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2.5">
                 <span className="h-3 w-3 rounded-full bg-gradient-to-tr from-rose-600 via-rose-500 to-rose-300 shadow-xs shrink-0" />
@@ -151,7 +140,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
         </div>
       </div>
 
-      {/* Fixed-size Recent Activity Card */}
       <div className="clay-card rounded-3xl p-6 h-[350px] min-h-[350px] flex flex-col justify-between relative overflow-hidden select-none shadow-sm">
         <div>
           <div className="flex items-center justify-between gap-2">
@@ -162,7 +150,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
 
             {sortedActivities.length > 0 && (
               <div className="flex items-center space-x-2 shrink-0">
-                {/* Sort Order Dropdown Pill */}
+
                 <div className="relative">
                   <button
                     onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
@@ -206,7 +194,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
                   )}
                 </div>
 
-                {/* Counter Pill */}
                 <span className="flex items-center justify-center rounded-xl bg-amber-100/90 px-2.5 py-1 text-xs font-black text-amber-950 shadow-xs border border-amber-300/80">
                   {sortedActivities.length}
                 </span>
@@ -215,7 +202,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
           </div>
         </div>
 
-        {/* Dynamic Activity Scrollable Container with Fixed h-[255px] */}
         {sortedActivities.length > 0 ? (
           <div className="space-y-2.5 my-3 h-[255px] max-h-[255px] overflow-y-auto pr-1.5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-stone-300/80 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
             {sortedActivities.map((activity) => {
@@ -228,9 +214,9 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
                   className="flex items-center justify-between p-3 rounded-2xl border border-stone-200/80 bg-stone-50/60 hover:bg-white hover:border-stone-300 hover:shadow-xs transition"
                 >
                   <div className="flex items-center space-x-3 truncate">
-                    {/* Status Icon */}
+
                     <div className={`h-8 w-8 rounded-xl flex items-center justify-center shrink-0 ${
-                      activity.status === 'SENT' 
+                      activity.status === 'SENT'
                         ? 'bg-emerald-100 text-emerald-800'
                         : activity.status === 'SCHEDULED'
                         ? 'bg-amber-100 text-amber-900'
@@ -245,7 +231,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
                       )}
                     </div>
 
-                    {/* Email & Subject */}
                     <div className="truncate text-xs">
                       <p className="font-extrabold text-stone-900 truncate">
                         {activity.recipient}
@@ -256,7 +241,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
                     </div>
                   </div>
 
-                  {/* Status Badge & Time */}
                   <div className="text-right shrink-0 ml-2">
                     <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
                       activity.status === 'SENT'
@@ -274,7 +258,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({ stats, recentEmails = []
             })}
           </div>
         ) : (
-          /* Default Empty State Illustration */
+
           <div className="flex flex-col items-center justify-center py-4 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-44 w-44 rounded-full bg-gradient-to-tr from-[#F7EFE4]/60 via-[#F3E7D5]/40 to-transparent blur-2xl pointer-events-none" />
 
