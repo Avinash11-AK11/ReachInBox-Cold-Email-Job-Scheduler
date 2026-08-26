@@ -33,7 +33,6 @@ Watch the comprehensive video demonstration walking through Google OAuth authent
 - 🛡️ **Redis Rate Limiter & Concurrency Guard**: Atomic sliding counter preventing email domain blacklisting.
 - 📬 **Multi-Sender Ethereal SMTP Engine**: Dispatch emails via mock Ethereal SMTP accounts with direct web preview link generation.
 - 📊 **Responsive Dashboard**: Live stats, Scheduled Emails table, Sent History view, search/filter capabilities, and custom claymorphic UI styling.
-- ☁️ **Vercel + Railway Ready**: Pre-configured for seamless production deployment on Vercel (Frontend) and Railway (Backend + Redis + MySQL).
 
 ---
 
@@ -43,47 +42,47 @@ Watch the comprehensive video demonstration walking through Google OAuth authent
 | :--- | :--- |
 | **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, Lucide React Icons, Axios |
 | **Backend API** | Node.js, Express.js 4, TypeScript, Passport.js, Multer, Zod |
-| **ORM & Database** | Prisma ORM, MySQL 8.0 / PostgreSQL |
+| **ORM & Database** | Prisma ORM, MySQL 8.0 |
 | **Queue & Cache** | Redis 7, BullMQ, ioredis |
 | **Email Service** | Nodemailer, Ethereal SMTP |
-| **Deployment** | Vercel (Frontend SPA), Railway (Backend + DB + Redis) |
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ System Architecture Overview
 
 ```text
-                    INTERNET / CLIENT
-                           │
-             ┌─────────────┴─────────────┐
-             ▼                           ▼
-       Vercel (SPA)               Railway (API)
-    React 18 + Tailwind           Express + Passport
-             │                           │
-             └────────── HTTPS ──────────┤
-                                         │
-                                 ┌───────┼───────┐
-                                 │       │       │
-                                 ▼       ▼       ▼
-                               MySQL   BullMQ   Redis
-                              (Prisma) (Queue)  (Limiter)
-                                 │       │       │
-                                 │       ▼       │
-                                 │   EmailWorker ◄┘
-                                 │       │
-                                 │       ▼
-                                 │   Ethereal SMTP
-                                 │
-                                 └── Sync DB Status (SENT / FAILED)
+                               ┌─────────────────────────┐
+                               │   Google OAuth Provider │
+                               └────────────┬────────────┘
+                                            │
+                                            ▼
+┌─────────────────────────┐        ┌─────────────────────────┐
+│   React 18 + Vite UI    │───────▶│   Express 4 + Node.js   │
+│   Tailwind CSS          │        │   TypeScript REST API   │
+│   Axios / Context API   │        └────────────┬────────────┘
+└─────────────────────────┘                     │
+                                  ┌─────────────┼─────────────┐
+                                  │             │             │
+                                  ▼             ▼             ▼
+                               MySQL          BullMQ        Redis
+                              (Prisma)     (Job Queue)  (Limit Counter)
+                                  │             │             │
+                                  │             ▼             │
+                                  │        Email Worker ◄─────┘
+                                  │     (Concurrency: N)
+                                  │             │
+                                  │             ├── Rate Limit Check (Redis INCR)
+                                  │             ├── Throttle Delay (2000ms)
+                                  │             └── Idempotency Guard (DB Check)
+                                  │             │
+                                  │             ▼
+                                  │       Nodemailer Client
+                                  │             │
+                                  │             ▼
+                                  │       Ethereal SMTP Server
+                                  │
+                                  └──── Sync Status (SENT / FAILED)
 ```
-
----
-
-## 🌐 Production Deployment Guide
-
-The project includes complete configurations for deploying the Frontend on **Vercel** and the Backend + Databases on **Railway**:
-
-- 📖 **[Read the Full Production Deployment Guide (DEPLOYMENT.md)](DEPLOYMENT.md)**
 
 ---
 
